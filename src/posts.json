@@ -1,0 +1,18 @@
+[
+    {
+        "id": 1,
+        "title": "first blog post!",
+        "category": "misc",
+        "content": "This is the content of the first post!",
+        "author": "C",
+        "dateCreated": "2025-03-20"
+    },
+        {
+        "id": 2,
+        "title": "I read 3 graphic novels and 1 children's book today",
+        "category": "bookish",
+        "content": "My favourites were Flamer by Mike Curato and My Garden Over Gaza by Sarah Musa, illustrated by Saffia Bazlamit",
+        "author": "C",
+        "dateCreated": "2025-03-20"
+    }
+]

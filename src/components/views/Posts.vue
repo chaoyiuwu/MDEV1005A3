@@ -1,17 +1,18 @@
 <template>
-  <div>
+  <div class="PostsContainer">
+  <form @submit.prevent="submitPost">
+      <input type="text" v-model="newPostTitle" placeholder="title"/>
+      <input type="text" v-model="newPostAuthor" placeholder="your name"/>
+      <textarea type="text" v-model="newPostContent" placeholder="post content"/>
+      <button  class="SubmitPostButton" type="submit">Submit</button>
+  </form>
     <ul>
       <li v-for="post in posts">
         {{ post.title }} by {{ post.author }} posted on {{ post.dateCreated }}
       </li>
   </ul>
 
-  <form @submit.prevent="submitPost">
-      <input type="text" v-model="newPostTitle" placeholder="title"/>
-      <input type="text" v-model="newPostAuthor" placeholder="your name"/>
-      <textarea type="text" v-model="newPostContent" placeholder="post content"/>
-      <button type="submit">Submit</button>
-  </form>
+  
   </div>
 </template>
 
@@ -58,3 +59,21 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.PostsContainer{
+  margin-top:100px;
+
+}
+
+.SubmitPostButton{
+  margin-left: 5px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-left: 30px;
+  padding-right: 30px;
+  background-color:#ADD8E6;
+  border-radius: 7%;
+  border-color:#ADD8E6;
+}
+</style>

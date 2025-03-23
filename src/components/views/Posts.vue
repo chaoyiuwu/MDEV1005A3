@@ -1,69 +1,61 @@
 <template>
   <div class="PostsContainer">
+  <ul>
+      <li v-for="post in posts">
+        <span>{{ post.title }} by {{ post.author }} posted on {{ post.dateCreated }}</span>
+      </li>
+  </ul>
+
   <form @submit.prevent="submitPost">
       <input type="text" v-model="newPostTitle" placeholder="title"/>
       <input type="text" v-model="newPostAuthor" placeholder="your name"/>
       <textarea type="text" v-model="newPostContent" placeholder="post content"/>
       <button  class="SubmitPostButton" type="submit">Submit</button>
   </form>
-    <ul>
-      <li v-for="post in posts">
-        {{ post.title }} by {{ post.author }} posted on {{ post.dateCreated }}
-      </li>
-  </ul>
-
-  
   </div>
 </template>
 
-<script>
-import postsData from '../../posts.json'
+<script setup>
+import { ref } from 'vue'
+import { getFirestore, collection, addDoc } from 'firebase/firestore'
+import { useCollection } from 'vuefire'
+import { firebaseApp } from '@/firebaseApp'
 
-export default {
-  data() {
-    return {
-      posts: postsData,
-      newPostTitle: '',
-      newPostAuthor: '',
-      newPostContent: ''
-    }
-  },
-  computed: {
-    postCount() {
-      return this.posts.length
-    }
-  },
-  methods: {
-    currentDate() {
-      const current = new Date()
-      const date = `${current.getFullYear()}-${current.getMonth()+1}-${current.getDate()}`
-      return date
-    },
-    submitPost: function() {
-      const newPost = {
-        id: this.postCount + 1,
-        title: this.newPostTitle,
-        author: this.newPostAuthor,
-        content: this.newPostContent,
-        dateCreated: this.currentDate()
-      }
+const db = getFirestore(firebaseApp)
+const postsRef = collection(db, 'posts')
+const posts = useCollection(postsRef)
 
-      this.posts.push(newPost)
-      console.log(JSON.stringify(newPost))
-        
-      // clear form variables
-      this.newPostTitle = ''
-      this.newPostAuthor = ''
-      this.newPostContent = ''
-   }
+const newPostTitle = ref('')
+const newPostAuthor = ref('')
+const newPostContent = ref('')
+
+const currentDate = () => {
+  const current = new Date()
+  return `${current.getFullYear()}-${current.getMonth() + 1}-${current.getDate()}`
+};
+
+const submitPost = async () => {
+  const newPost = {
+    title: newPostTitle.value,
+    category: 'misc',
+    author: newPostAuthor.value,
+    content: newPostContent.value,
+    dateCreated: currentDate(),
   }
-}
+
+  const docRef = await addDoc(postsRef, newPost)
+  console.log(`new data: ${JSON.stringify(newPost)} new doc id: ${docRef.id}`)
+
+  // Clear form variables
+  newPostTitle.value = ''
+  newPostAuthor.value = ''
+  newPostContent.value = ''
+};
 </script>
 
 <style scoped>
-.PostsContainer{
+.PostsContainer {
   margin-top:100px;
-
 }
 
 .SubmitPostButton{

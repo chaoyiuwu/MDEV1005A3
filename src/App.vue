@@ -1,13 +1,11 @@
-
-
-<template>
+ <template>
 <div class="container">
-  <div class="header_container">
+  <!-- <div class="header_container">
   <h1 class="header1">Hello App!</h1>
   <p>
     <strong>Current route path:</strong> {{ $route.fullPath }}
   </p>
-  </div>
+  </div> -->
   <nav>
     <div class="bottom-nav">
     <RouterLink to="/" class="tab">Home</RouterLink>
@@ -58,9 +56,6 @@ h1{
 }
 
 @media (min-width: 1024px) {
-
-
-
 
 }
 </style>

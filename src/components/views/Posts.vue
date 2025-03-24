@@ -1,34 +1,49 @@
 <template>
-  <div class="PostsContainer">
-  <ol>
-      <li v-for="post in posts">
-        <div class="PostTitle" >{{ post.title }}</div>
-        <div class="PostCat"> Category: {{ post.category }} </div>
-        <div> {{ post.content }} </div>
-        <!--button id="show-modal" v-on:click="showDetails(post)">Additional Info</button-->
-          <button id="show-modal" v-on:click="showDetails(post)">Additional Info</button>
-      </li>
-      <Teleport to="body">
-    <!-- use the modal component, pass in the prop -->
-    <modal :show="showModal" @close="showModal = false">
-      <template #header>
-        <h3>Custom Header</h3>
-      </template>
-    </modal>
-  </Teleport>
-  </ol>
+    <div class='flex flex-col p-10 justify-center items-center'>
+        <div class='w-full'>
+            <ol>
+                <li v-for="post in posts">
+                <div class="PostTitle" >{{ post.title }}</div>
+                <div class="PostCat"> Category: {{ post.category }} </div>
+                <div> {{ post.content }} </div>
+                <!--button id="show-modal" v-on:click="showDetails(post)">Additional Info</button-->
+                <button id="show-modal" v-on:click="showDetails(post)">Additional Info</button>
+                </li>
+                <Teleport to="body">
+                <!-- use the modal component, pass in the prop -->
+                <modal :show="showModal" @close="showModal = false">
+                <template #header>
+                <h3>Custom Header</h3>
+                </template>
+                </modal>
+                </Teleport>
+            </ol>
+        </div>
   
-  <form @submit.prevent="submitPost">
-      <input type="text" v-model="newPostTitle" placeholder="title"/>
-      <input type="text" v-model="newPostAuthor" placeholder="your name"/>
-      <textarea type="text" v-model="newPostContent" placeholder="post content"/>
-      <button  class="SubmitPostButton" type="submit">Submit</button>
-  </form>
-  </div>
+        <div class='w-full max-w-xs'>
+            <form class="shadow-md rounded px-8 pt-6 pb-8 mb-4" @submit.prevent="submitPost">
+                <div class='flex flex-col'>
+                <input 
+                class='shadow border rounded w-full py-2 px-3 mb-8 focus:shadow-outline'
+                type="text" v-model="newPostTitle" placeholder="title"/>
+                <input
+                class='shadow border rounded w-full py-2 px-3 mb-8 focus:shadow-outline'
+                type="text" v-model="newPostAuthor" placeholder="your name"/>
+                <textarea
+                class='bg-stone-50 text-black'
+                type="text" v-model="newPostContent" placeholder="post content"/>
+                <button 
+                class='shadow bg-emerald-900 hover:bg-emerald-800 rounded px-4 py-2 my-4 focus:shadow-outline focus:outline-none text-white text-sm' 
+                type="submit">Submit</button>
+                </div>
+            </form>
+        </div>
+        
+    </div>
 </template>
 
 <script>
-import Modal from './Modal.vue';
+import Modal from './Modal.vue'
 
 export default {
     components: {

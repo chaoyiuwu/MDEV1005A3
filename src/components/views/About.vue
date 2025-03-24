@@ -1,5 +1,5 @@
 <script setup>
-import {ref} from 'vue'
+import { RouterLink } from 'vue-router'
 
 </script>
 
@@ -16,6 +16,7 @@ import {ref} from 'vue'
       <button class="githubLinkButton">Github Link</button>
     </a>
   </div>
+  <RouterLink to="/about/Jacklyn/interests" class="tab">Interests</RouterLink>
   </div>
   <img alt="Jacky logo" class="aboutImage" src="../../assets/jacky.png" width="250" height="250" />
   
@@ -29,18 +30,12 @@ import {ref} from 'vue'
       <button class="githubLinkButton">Github Link</button>
     </a>
   </div>
+  <RouterLink to="/about/Chaoyi/interests" class="tab">Interests</RouterLink>
   </div>
   <img alt="Chaoyi logo" class="aboutImage" src="../../assets/jacky.png" width="250" height="250" />
-
+  <router-view/>
   </div>
 </template>
-
-<script>
-
-export default {
-  name: 'About'
-}
-</script>
 
 <style scoped>
 h1{

@@ -9,7 +9,7 @@ const props = defineProps({
   <Transition name="modal">
     <div v-if="show" class="modal-mask">
       <div class="modal-container">
-        <div class="modal-header">
+        <div class="modal-header text-sky-900">
           <slot name="header">{{ post?.title || 'Default Title' }}</slot>
         </div>
 
@@ -21,7 +21,7 @@ const props = defineProps({
 
         <div class="modal-footer">
           <slot name="footer">
-            <button class="modal-default-button" @click="$emit('close')">OK</button>
+            <button class="modal-default-button text-sky-900" @click="$emit('close')">OK</button>
           </slot>
         </div>
       </div>
@@ -29,7 +29,10 @@ const props = defineProps({
   </Transition>
 </template>
 
-<style>
+<style scoped>
+p {
+  color: black;
+}
 .modal-mask {
   position: fixed;
   z-index: 9998;
@@ -54,7 +57,7 @@ const props = defineProps({
 
 .modal-header h3 {
   margin-top: 0;
-  color: #42b983;
+  color: black;
 }
 
 .modal-body {

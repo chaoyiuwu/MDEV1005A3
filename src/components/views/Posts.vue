@@ -1,28 +1,54 @@
 <template>
-  <div class="PostsContainer">
-    <input type="text" v-model="searchQuery" placeholder="Search posts by Title or Content..." class="searchInput" />
-    
-    <ol>
-      <li v-for="post in filteredPosts" :key="post.id">
-        <div class="PostTitle">{{ post.title }}</div>
-        <div class="PostCat">Category: {{ post.category }}</div>
-        <div>{{ post.content }}</div>
-        <button id="show-modal" @click="showDetails(post)">Additional Info</button>
-      </li>
-    </ol>
-    
-    <Teleport to="body">
-      <Modal :show="showModal" :post="selectedPost" @close="showModal = false" />
-    </Teleport>
-    
-    <form @submit.prevent="submitPost">
-      <input type="text" v-model="newPostTitle" placeholder="title" />
-      <input type="text" v-model="newPostAuthor" placeholder="your name" />
-      <input type="text" v-model="newPostCat" placeholder="category" />
-      <textarea class="contentInput" v-model="newPostContent" placeholder="post content"></textarea>
-      <button class="SubmitPostButton" type="submit">Submit</button>
-    </form>
-  </div>
+    <div class='flex flex-col w-full pb-10'>
+        <div class='PostsContainer'>
+            <input type="text" v-model="searchQuery" placeholder="Search posts by Title or Content..." 
+            class="searchInput" />
+            <ol>
+                <li v-for="post in posts" :key="post.postId"
+                class='marginBottom bg-emerald-600 text-slate-900 rounded shadow p-5'>
+                <div class="PostTitle" >{{ post.title }}</div>
+                <div class="PostCat"> Category: {{ post.category }} </div>
+                <div> {{ post.content }} </div>
+                <button id="show-modal" @click="showDetails(post)"
+                class='italic underline text-stone-700 hover:text-indigo-800'>
+                Additional Info</button>
+                </li>
+            </ol>
+            <Teleport to="body">
+                <Modal :show="showModal" :post="selectedPost" @close="showModal = false" />
+            </Teleport>
+        </div>
+  
+      
+            <form @submit.prevent="submitPost">
+                <div class='FormContainer'>
+                    <input 
+                    class='marginBottom shadow border rounded w-full py-2 px-3 focus:shadow-outline'
+                    type="text" v-model="newPostTitle" placeholder="title"/>
+                    <input
+                    class='marginBottom shadow border rounded w-full py-2 px-3 focus:shadow-outline'
+                    type="text" v-model="newPostAuthor" placeholder="your name"/>
+                    <input
+                    class='marginBottom shadow border rounded w-full py-2 px-3 focus:shadow-outline'
+                    type="text" v-model="newPostCat" placeholder="category"/>
+                    <textarea rows="4"
+                    class='marginBottom w-full bg-stone-50 text-black rounded-lg p-2.5'
+                    type="text" v-model="newPostContent" placeholder="post content"/>
+                    <div 
+                    class="flex flex-row justify-around">
+                        <button 
+                        class='py-2 px-6 bg-emerald-900 hover:bg-emerald-800 rounded focus:shadow-outline focus:outline-none text-white text-sm' 
+                        type="submit">Submit</button>
+                        <button
+                        class="py-2 px-3 bg-transparent hover:bg-zinc-800 rounded"
+                        v-click="clearForm">Clear Form
+                    </button>
+                    </div>
+                </div>
+            </form>
+        
+        
+    </div>
 </template>
 
 <script>
@@ -57,6 +83,13 @@ export default {
       showModal.value = true;
     };
 
+    const clearForm = () => {
+      newPostTitle.value = '';
+      newPostAuthor.value = '';
+      newPostContent.value = '';
+      newPostCat.value = '';
+    };
+
     const submitPost = async () => {
       const newPost = {
         title: newPostTitle.value,
@@ -69,10 +102,7 @@ export default {
       const docRef = await addDoc(postsRef, newPost);
       console.log(`New post: ${JSON.stringify(newPost)}, Doc ID: ${docRef.id}`);
 
-      newPostTitle.value = '';
-      newPostAuthor.value = '';
-      newPostCat.value = '';
-      newPostContent.value = '';
+      clearForm();
     };
 
     const filteredPosts = computed(() => {
@@ -89,7 +119,13 @@ export default {
 
 <style scoped>
 .PostsContainer {
-  margin-top: 100px;
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.FormContainer {
+    max-width: 60%;
+    margin: auto;
 }
 
 .searchInput {
@@ -128,11 +164,8 @@ export default {
   font-size: 10px;
 }
 
-li {
-  background-color: #4CAF50;
-  padding: 5px;
-  margin: 5px;
-  border-radius: 4px;
+.marginBottom {
+  margin-bottom: 10px;
 }
 </style>
 

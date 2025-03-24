@@ -1,7 +1,9 @@
 <template>
   <div class="PostsContainer">
+    <input type="text" v-model="searchQuery" placeholder="Search posts by Title or Content..." class="searchInput" />
+    
     <ol>
-      <li v-for="post in posts" :key="post.id">
+      <li v-for="post in filteredPosts" :key="post.id">
         <div class="PostTitle">{{ post.title }}</div>
         <div class="PostCat">Category: {{ post.category }}</div>
         <div>{{ post.content }}</div>
@@ -16,6 +18,7 @@
     <form @submit.prevent="submitPost">
       <input type="text" v-model="newPostTitle" placeholder="title" />
       <input type="text" v-model="newPostAuthor" placeholder="your name" />
+      <input type="text" v-model="newPostCat" placeholder="category" />
       <textarea class="contentInput" v-model="newPostContent" placeholder="post content"></textarea>
       <button class="SubmitPostButton" type="submit">Submit</button>
     </form>
@@ -24,7 +27,7 @@
 
 <script>
 import Modal from './Modal.vue';
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 import { getFirestore, collection, addDoc } from 'firebase/firestore';
 import { useCollection } from 'vuefire';
 import { firebaseApp } from '@/firebaseApp';
@@ -39,8 +42,10 @@ export default {
     const newPostTitle = ref('');
     const newPostAuthor = ref('');
     const newPostContent = ref('');
+    const newPostCat = ref('');
     const showModal = ref(false);
     const selectedPost = ref(null);
+    const searchQuery = ref('');
 
     const currentDate = () => {
       const current = new Date();
@@ -55,7 +60,7 @@ export default {
     const submitPost = async () => {
       const newPost = {
         title: newPostTitle.value,
-        category: 'misc',
+        category: newPostCat.value,
         author: newPostAuthor.value,
         content: newPostContent.value,
         dateCreated: currentDate(),
@@ -66,10 +71,18 @@ export default {
 
       newPostTitle.value = '';
       newPostAuthor.value = '';
+      newPostCat.value = '';
       newPostContent.value = '';
     };
 
-    return { posts, newPostTitle, newPostAuthor, newPostContent, showModal, selectedPost, showDetails, submitPost };
+    const filteredPosts = computed(() => {
+      return posts.value.filter(post =>
+        post.title.toLowerCase().includes(searchQuery.value.toLowerCase()) ||
+        post.content.toLowerCase().includes(searchQuery.value.toLowerCase())
+      );
+    });
+
+    return { posts, newPostTitle, newPostAuthor, newPostContent, showModal, selectedPost, showDetails, submitPost, searchQuery, filteredPosts };
   }
 };
 </script>
@@ -77,6 +90,14 @@ export default {
 <style scoped>
 .PostsContainer {
   margin-top: 100px;
+}
+
+.searchInput {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
 }
 
 .SubmitPostButton {

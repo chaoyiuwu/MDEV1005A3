@@ -14,7 +14,7 @@ import { RouterLink } from 'vue-router'
             class="aboutImage rounded-full w-70 h-50 object-cover"
             src="../../assets/Fergie.png" />  
         </div>
-        <div class="flex flex-row justify-around p-4 text-lg">
+        <div class="flex flex-col md:flex-row p-4 text-lg">
             <a href="https://github.com/JacklynBecker" target="_blank">Github Link</a>
             <RouterLink to="/about/Jacklyn/moreabout" class="">Discover More</RouterLink>
         </div>
@@ -28,7 +28,7 @@ import { RouterLink } from 'vue-router'
             class="aboutImage rounded-full w-50 h-50 object-contain"
             src="../../assets/miwalola.png" />
         </div>    
-        <div class="flex flex-row justify-around p-4 text-lg">
+        <div class="flex flex-col md:flex-row p-4 text-lg">
             <a href="https://github.com/chaoyiuwu">Github Link</a>
             <RouterLink to="/about/Chaoyi/moreabout" class="">Discover More</RouterLink>
         </div>        

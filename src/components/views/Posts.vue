@@ -7,7 +7,7 @@
                 <li v-for="post in posts" :key="post.postId"
                 class='marginBottom bg-emerald-600 text-slate-900 rounded shadow p-5'>
                 <div class="PostTitle" >{{ post.title }}</div>
-                <div class="PostCat"> Category: {{ post.category }} </div>
+                <div class="text-sm"> Category: {{ post.category }} </div>
                 <div> {{ post.content }} </div>
                 <button id="show-modal" @click="showDetails(post)"
                 class='italic underline text-stone-700 hover:text-indigo-800'>
@@ -20,55 +20,50 @@
         </div>
   
       
-            <form @submit.prevent="submitPost">
-                <div class='FormContainer'>
-                    <input 
-                    class='marginBottom shadow border rounded w-full py-2 px-3 focus:shadow-outline'
-                    type="text" v-model="newPostTitle" placeholder="title"/>
-                    <input
-                    class='marginBottom shadow border rounded w-full py-2 px-3 focus:shadow-outline'
-                    type="text" v-model="newPostAuthor" placeholder="your name"/>
-                    <input
-                    class='marginBottom shadow border rounded w-full py-2 px-3 focus:shadow-outline'
-                    type="text" v-model="newPostCat" placeholder="category"/>
-                    <textarea rows="4"
-                    class='marginBottom w-full bg-stone-50 text-black rounded-lg p-2.5'
-                    type="text" v-model="newPostContent" placeholder="post content"/>
-                    <div 
-                    class="flex flex-row justify-around">
-                        <button 
-                        class='py-2 px-6 bg-emerald-900 hover:bg-emerald-800 rounded focus:shadow-outline focus:outline-none text-white text-sm' 
-                        type="submit">Submit</button>
-                        <button
-                        class="py-2 px-3 bg-transparent hover:bg-zinc-800 rounded"
-                        v-click="clearForm">Clear Form
-                    </button>
-                    </div>
-                </div>
-            </form>
-        
-        
+            
+        <div class='FormContainer'>
+            <input 
+            class='marginBottom shadow border rounded w-full py-2 px-3 focus:shadow-outline'
+            type="text" v-model="newPostTitle" placeholder="title"/>
+            <input
+            class='marginBottom shadow border rounded w-full py-2 px-3 focus:shadow-outline'
+            type="text" v-model="newPostAuthor" placeholder="your name"/>
+            <input
+            class='marginBottom shadow border rounded w-full py-2 px-3 focus:shadow-outline'
+            type="text" v-model="newPostCat" placeholder="category"/>
+            <textarea rows="4"
+            class='marginBottom w-full bg-stone-50 text-black rounded-lg p-2.5'
+            type="text" v-model="newPostContent" placeholder="post content"/>
+            <div class="flex flex-row justify-around">
+                <button 
+                class='py-2 px-6 bg-emerald-900 hover:bg-emerald-800 rounded focus:shadow-outline focus:outline-none text-white text-sm' 
+                @click="submitPost">Submit</button>
+                <button
+                class="py-2 px-3 bg-transparent hover:bg-zinc-800 rounded"
+                 @click="clearForm">Clear Form</button>
+            </div>
+        </div>
     </div>
 </template>
 
-<script>
-import Modal from './Modal.vue';
-import { ref, computed } from 'vue';
-import { getFirestore, collection, addDoc } from 'firebase/firestore';
-import { useCollection } from 'vuefire';
-import { firebaseApp } from '@/firebaseApp';
+<script setup>
+    import Modal from './Modal.vue';
+    import { ref, computed } from 'vue';
+    import { getFirestore, collection, addDoc, getCountFromServer } from 'firebase/firestore';
+    import { useCollection } from 'vuefire';
+    import { firebaseApp } from '@/firebaseApp';
 
-export default {
-  components: { Modal },
-  setup() {
+    // firebase variables
     const db = getFirestore(firebaseApp);
     const postsRef = collection(db, 'posts');
     const posts = useCollection(postsRef);
 
+    // form variables
     const newPostTitle = ref('');
     const newPostAuthor = ref('');
     const newPostContent = ref('');
     const newPostCat = ref('');
+
     const showModal = ref(false);
     const selectedPost = ref(null);
     const searchQuery = ref('');
@@ -91,18 +86,18 @@ export default {
     };
 
     const submitPost = async () => {
-      const newPost = {
-        title: newPostTitle.value,
-        category: newPostCat.value,
-        author: newPostAuthor.value,
-        content: newPostContent.value,
-        dateCreated: currentDate(),
-      };
-
-      const docRef = await addDoc(postsRef, newPost);
-      console.log(`New post: ${JSON.stringify(newPost)}, Doc ID: ${docRef.id}`);
-
-      clearForm();
+        const snapshot = await getCountFromServer(postsRef);
+        const newPost = {
+            postId: snapshot.data().count + 1,
+            title: newPostTitle.value,
+            category: newPostCat.value,
+            author: newPostAuthor.value,
+            content: newPostContent.value,
+            dateCreated: currentDate(),
+        };
+        const docRef = await addDoc(postsRef, newPost);
+        console.log(`New post: ${JSON.stringify(newPost)}, Doc ID: ${docRef.id}`);
+        clearForm();
     };
 
     const filteredPosts = computed(() => {
@@ -111,10 +106,6 @@ export default {
         post.content.toLowerCase().includes(searchQuery.value.toLowerCase())
       );
     });
-
-    return { posts, newPostTitle, newPostAuthor, newPostContent, showModal, selectedPost, showDetails, submitPost, searchQuery, filteredPosts };
-  }
-};
 </script>
 
 <style scoped>

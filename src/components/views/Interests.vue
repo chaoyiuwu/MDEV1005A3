@@ -3,7 +3,7 @@
         <h1> {{ this.capitalizedName }}'s interests </h1>
     </div>
     <div v-if="$route.params.name.toLowerCase() === 'jacklyn'">
-        <p>Jacklyn is interested in _insert interests here_.</p>
+        <p>Jacklyn is interested in rock climbing and watching reality TV.</p>
     </div>
     <div v-else-if="$route.params.name.toLowerCase() === 'chaoyi'">
         <p>Chaoyi is interested in reading books and playing video games.</p>

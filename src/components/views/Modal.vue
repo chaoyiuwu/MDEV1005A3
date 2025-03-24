@@ -1,7 +1,7 @@
-
 <script setup>
 const props = defineProps({
-  show: Boolean
+  show: Boolean,
+  post: Object // Accept post object
 })
 </script>
 
@@ -10,20 +10,18 @@ const props = defineProps({
     <div v-if="show" class="modal-mask">
       <div class="modal-container">
         <div class="modal-header">
-          <slot name="header">default header</slot>
+          <slot name="header">{{ post?.title || 'Default Title' }}</slot>
         </div>
 
         <div class="modal-body">
-          <slot name="body">default body</slot>
+          <p><strong>Author:</strong> {{ post?.author || 'Unknown' }}</p>
+          <p><strong>Date Created:</strong> {{ post?.dateCreated || 'N/A' }}</p>
+          <slot name="body"></slot>
         </div>
 
         <div class="modal-footer">
           <slot name="footer">
-            default footer
-            <button
-              class="modal-default-button"
-              @click="$emit('close')"
-            >OK</button>
+            <button class="modal-default-button" @click="$emit('close')">OK</button>
           </slot>
         </div>
       </div>
@@ -66,15 +64,6 @@ const props = defineProps({
 .modal-default-button {
   float: right;
 }
-
-/*
- * The following styles are auto-applied to elements with
- * transition="modal" when their visibility is toggled
- * by Vue.js.
- *
- * You can easily play with the modal transition by editing
- * these styles.
- */
 
 .modal-enter-from {
   opacity: 0;

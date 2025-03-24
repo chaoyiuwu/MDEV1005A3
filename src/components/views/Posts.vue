@@ -19,9 +19,9 @@
   </ol>
   
   <form @submit.prevent="submitPost">
-      <input type="text" v-model="newPostTitle" placeholder="title"/>
+      <input  type="text" v-model="newPostTitle" placeholder="title"/>
       <input type="text" v-model="newPostAuthor" placeholder="your name"/>
-      <textarea type="text" v-model="newPostContent" placeholder="post content"/>
+      <textarea  class="contentInput" type="text" v-model="newPostContent" placeholder="post content"/>
       <button  class="SubmitPostButton" type="submit">Submit</button>
   </form>
   </div>
@@ -94,15 +94,52 @@ const submitPost = async () => {
 }
 
 .SubmitPostButton{
-  margin-left: 5px;
-  padding-top: 10px;
-  padding-bottom: 10px;
-  padding-left: 30px;
-  padding-right: 30px;
-  background-color:#ADD8E6;
-  border-radius: 7%;
-  border-color:#ADD8E6;
+  width: 100%;
+  background-color: #4CAF50;
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
 }
+
+.contentInput{
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+input[type=text], select {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+input[type=submit] {
+  width: 100%;
+  background-color: #4CAF50;
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+input[type=submit]:hover {
+  background-color: #45a049;
+}
+
+
 
 .PostTitle{
   font-size: 25px;
@@ -114,8 +151,7 @@ const submitPost = async () => {
 }
 
 li{
-  background-color: green;
-  
+  background-color: #4CAF50;
   padding: 5px;
   margin:5px;
 }

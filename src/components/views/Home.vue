@@ -82,71 +82,67 @@ function onHashChange() {
 </script>
 
 <template>
-  <section class="todoapp">
-    <header class="header">
-      <h1>Todos</h1>
-      <input
-        class="new-todo"
-        autofocus
-        placeholder="What needs to be done?"
-        @keyup.enter="addTodo"
-      >
-    </header>
-    <section class="main" v-show="todos.length">
-      <input
-        id="toggle-all"
-        class="toggle-all"
-        type="checkbox"
-        :checked="remaining === 0"
-        @change="toggleAll"
-      >
-      <label for="toggle-all">Mark all as complete</label>
-      <ul class="todo-list">
-        <li
-          v-for="todo in filteredTodos"
-          class="todo"
-          :key="todo.id"
-          :class="{ completed: todo.completed, editing: todo === editedTodo }"
-        >
-          <div class="view">
-            <input class="toggle" type="checkbox" v-model="todo.completed">
-            <label @dblclick="editTodo(todo)">{{ todo.title }}</label>
-            <button class="destroy" @click="removeTodo(todo)"></button>
-          </div>
-          <input
-            v-if="todo === editedTodo"
-            class="edit"
-            type="text"
-            v-model="todo.title"
-            @vue:mounted="({ el }) => el.focus()"
-            @blur="doneEdit(todo)"
-            @keyup.enter="doneEdit(todo)"
-            @keyup.escape="cancelEdit(todo)"
-          >
-        </li>
-      </ul>
-    </section>
-    <footer class="footer" v-show="todos.length">
-      <span class="todo-count">
-        <strong>{{ remaining }}</strong>
-        <span>{{ remaining === 1 ? ' item' : ' items' }} left</span>
-      </span>
-      <ul class="filters">
-        <li>
-          <a href="#/all" :class="{ selected: visibility === 'all' }">All</a>
-        </li>
-        <li>
-          <a href="#/active" :class="{ selected: visibility === 'active' }">Active</a>
-        </li>
-        <li>
-          <a href="#/completed" :class="{ selected: visibility === 'completed' }">Completed</a>
-        </li>
-      </ul>
-      <button class="clear-completed" @click="removeCompleted" v-show="todos.length > remaining">
-        Clear completed
-      </button>
-    </footer>
-  </section>
+  	<div class="py-10 flex flex-col w-screen items-center">
+		<section class="todoapp min-w-sm md:w-3/4">
+			<header class="header">
+			<h1>Todos</h1>
+			<input
+				class="new-todo"
+				autofocus
+				placeholder="what needs to be done?"
+				@keyup.enter="addTodo"
+			>
+			</header>
+			<section class="main" v-show="todos.length">
+			<input
+				id="toggle-all"
+				class="toggle-all"
+				type="checkbox"
+				:checked="remaining === 0"
+				@change="toggleAll"
+			>
+			<label for="toggle-all">Mark all as complete</label>
+			<ul class="todo-list">
+				<li
+				v-for="todo in filteredTodos"
+				class="todo"
+				:key="todo.id"
+				:class="{ completed: todo.completed, editing: todo === editedTodo }"
+				>
+				<div class="view">
+					<input class="toggle" type="checkbox" v-model="todo.completed">
+					<label @dblclick="editTodo(todo)">{{ todo.title }}</label>
+					<button class="destroy" @click="removeTodo(todo)"></button>
+				</div>
+				<input
+					v-if="todo === editedTodo"
+					class="edit"
+					type="text"
+					v-model="todo.title"
+					@vue:mounted="({ el }) => el.focus()"
+					@blur="doneEdit(todo)"
+					@keyup.enter="doneEdit(todo)"
+					@keyup.escape="cancelEdit(todo)"
+				>
+				</li>
+			</ul>
+			</section>
+			<footer class="footer flex flex-row pt-4 pl-4 justify-center text-lg" v-show="todos.length">
+				<span class="todo-count">
+					<strong>{{ remaining }}</strong>
+					<span>{{ remaining === 1 ? ' item' : ' items' }} left</span>
+				</span>
+				<div class="filters pl-4">
+					<a href="#/all" :class="{ selected: visibility === 'all' }">All</a>
+					<a href="#/active" :class="{ selected: visibility === 'active' }">Active</a>
+					<a href="#/completed" :class="{ selected: visibility === 'completed' }">Completed</a>
+				</div>
+			<button class="clear-completed" @click="removeCompleted" v-show="todos.length > remaining">
+				Clear completed
+			</button>
+			</footer>
+		</section>
+	</div>
 </template>
 
 <style>
@@ -160,7 +156,8 @@ function onHashChange() {
 
 .todoapp {
 	background: #fff;
-	margin: 70px 0 40px 0;
+	display: flex;
+	flex-direction: column;
 	box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2),
 	            0 25px 50px 0 rgba(0, 0, 0, 0.1);
 }
@@ -186,7 +183,7 @@ function onHashChange() {
 .todoapp h1 {
 	top: 0;
 	width: 100%;
-	font-size: 80px;
+	font-size: 50px;
 	font-weight: 200;
 	text-align: center;
 	color: #b83f45;
@@ -381,10 +378,6 @@ function onHashChange() {
 }
 
 .footer {
-	padding: 10px 15px;
-	height: 40px;
-	text-align: center;
-	font-size: 15px;
 	border-top: 1px solid #e6e6e6;
 }
 
@@ -405,27 +398,14 @@ function onHashChange() {
 .todo-count {
 	float: left;
 	text-align: left;
-  color: black;
+  	color: black;
 }
 
 .todo-count strong {
 	font-weight: 300;
 }
 
-.filters {
-	margin: 0;
-	padding: 0;
-	list-style: none;
-	position: absolute;
-	right: 0;
-	left: 0;
-}
-
-.filters li {
-	display: inline;
-}
-
-.filters li a {
+.filters a {
 	color: black;
 	margin: 3px;
 	padding: 3px 7px;
@@ -434,11 +414,11 @@ function onHashChange() {
 	border-radius: 3px;
 }
 
-.filters li a:hover {
+.filters a:hover {
 	border-color: #DB7676;
 }
 
-.filters li a.selected {
+.filters a.selected {
 	border-color: #CE4646;
 }
 

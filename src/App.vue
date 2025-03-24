@@ -25,7 +25,7 @@
   top:0;
   background-color: #f8f8f8;
   width: 100%;
-  text-color:black;
+  color:black;
 }
 
 .bottom-nav {

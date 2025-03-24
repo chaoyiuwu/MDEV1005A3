@@ -154,6 +154,7 @@ li{
   background-color: #4CAF50;
   padding: 5px;
   margin:5px;
+  border-radius: 4px;
 }
 </style>
 

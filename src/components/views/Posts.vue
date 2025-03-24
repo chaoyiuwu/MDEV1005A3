@@ -1,11 +1,23 @@
 <template>
   <div class="PostsContainer">
-  <ul>
+  <ol>
       <li v-for="post in posts">
-        <span>{{ post.title }} by {{ post.author }} posted on {{ post.dateCreated }}</span>
+        <div class="PostTitle" >{{ post.title }}</div>
+        <div class="PostCat"> Category: {{ post.category }} </div>
+        <div> {{ post.content }} </div>
+        <!--button id="show-modal" v-on:click="showDetails(post)">Additional Info</button-->
+          <button id="show-modal" v-on:click="showDetails(post)">Additional Info</button>
       </li>
-  </ul>
-
+      <Teleport to="body">
+    <!-- use the modal component, pass in the prop -->
+    <modal :show="showModal" @close="showModal = false">
+      <template #header>
+        <h3>Custom Header</h3>
+      </template>
+    </modal>
+  </Teleport>
+  </ol>
+  
   <form @submit.prevent="submitPost">
       <input type="text" v-model="newPostTitle" placeholder="title"/>
       <input type="text" v-model="newPostAuthor" placeholder="your name"/>
@@ -15,6 +27,28 @@
   </div>
 </template>
 
+<script>
+import Modal from './Modal.vue';
+
+export default {
+    components: {
+        Modal,
+    },
+    data() {
+        return {
+            product: null,
+            products: [],
+            showModal: false,
+        };
+    },
+    methods: {
+        showDetails(product) {
+            this.product = product;
+            this.showModal = true;
+        },
+    },
+};
+</script>
 <script setup>
 import { ref } from 'vue'
 import { getFirestore, collection, addDoc } from 'firebase/firestore'
@@ -28,6 +62,7 @@ const posts = useCollection(postsRef)
 const newPostTitle = ref('')
 const newPostAuthor = ref('')
 const newPostContent = ref('')
+
 
 const currentDate = () => {
   const current = new Date()
@@ -68,4 +103,21 @@ const submitPost = async () => {
   border-radius: 7%;
   border-color:#ADD8E6;
 }
+
+.PostTitle{
+  font-size: 25px;
+  font-weight: bold;
+}
+
+.PostCat{
+  font-size: 10px;
+}
+
+li{
+  background-color: green;
+  
+  padding: 5px;
+  margin:5px;
+}
 </style>
+

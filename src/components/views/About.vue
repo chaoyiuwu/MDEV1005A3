@@ -8,7 +8,7 @@ import { RouterLink } from 'vue-router'
         <div class="aboutPerson">
         <div class="aboutPersonInfo">
         <p class="text-lg"> Jacklyn Becker </p>
-        <h3 class="infoSection"> This is where I write a section about myself. </h3>
+        <h3 class="infoSection"> Hi, my name is Jacklyn Becker but i usually go by Jacky. I work as a Verification Engineer at Qualcomm but im looking to change career paths. I have one child(cat) named Fergie with the most amazing sassy attitude. </h3>
         <div class="flex flex-row justify-around py-2">
             <a href="https://github.com/JacklynBecker">
             Github Link
@@ -17,9 +17,9 @@ import { RouterLink } from 'vue-router'
         </div>
 
         </div>
-        <img alt="Jacky logo" 
-        class="aboutImage rounded-full w-50 h-auto" 
-        src="../../assets/jacky.png"/>
+        <img alt="Jackylogo"
+        class="aboutImage rounded-full w-70 h-50"
+        src="../../assets/Fergie.png" />
         
         </div>
         <div class="aboutPerson">

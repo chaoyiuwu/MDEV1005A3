@@ -5,7 +5,7 @@ import { VueFire } from 'vuefire'
 import router from './router'
 import App from './App.vue'
 import { firebaseApp } from './firebaseApp'
-import PrimeVue from 'primevue/config'
+// import PrimeVue from 'primevue/config'
 
 createApp(App)
     .use(VueFire, { firebaseApp })

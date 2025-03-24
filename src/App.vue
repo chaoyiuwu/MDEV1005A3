@@ -1,22 +1,22 @@
- <template>
-<div class="container">
-  <!-- <div class="header_container">
-  <h1 class="header1">Hello App!</h1>
-  <p>
-    <strong>Current route path:</strong> {{ $route.fullPath }}
-  </p>
-  </div> -->
-  <nav>
-    <div class="bottom-nav">
-    <RouterLink to="/" class="tab">Home</RouterLink>
-    <RouterLink to="/about" class="tab">About</RouterLink>
-    <RouterLink to="/posts" class="tab">Posts</RouterLink>
+<template>
+    <div class="flex w-full justify-center p-5">
+    <!-- <div class="header_container">
+    <h1 class="header1">Hello App!</h1>
+    <p>
+      <strong>Current route path:</strong> {{ $route.fullPath }}
+    </p>
+    </div> -->
+        <main>
+            <RouterView />
+        </main>
     </div>
-  </nav>
-  <main>
-    <RouterView />
-  </main>
-  </div>
+    <nav>
+        <div class="bottom-nav flex w-full justify-around bg-transparent">
+            <RouterLink to="/" class="tab">Home</RouterLink>
+            <RouterLink to="/about" class="tab">About</RouterLink>
+            <RouterLink to="/posts" class="tab">Posts</RouterLink>
+        </div>
+    </nav>
 </template>
 
 <style scoped>
@@ -28,34 +28,10 @@
   text-color:black;
 }
 
-p{
-  color:black;
-}
-
-h1{
-  color:black;
-}
-
-.container{
-  display: flex;
-  flex-direction:column;
-  width: 100%;
-  margin: 0;
-
-}
-
-
 .bottom-nav {
-    display: flex;
-    justify-content: space-around;
-    background-color: #f8f8f8;
-    padding: 10px 0;
     position: fixed;
     bottom: 0;
-    width: 100%;
+    padding: 10px;
 }
 
-@media (min-width: 1024px) {
-
-}
 </style>
